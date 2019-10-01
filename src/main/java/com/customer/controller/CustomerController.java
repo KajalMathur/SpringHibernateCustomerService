@@ -30,7 +30,7 @@ public class CustomerController {
 
 	}
 
-	// Post request
+	/* Post request */
 	@PostMapping("/customers")
 	public String createCustomer(@Valid @RequestBody Customer customer) {
 
