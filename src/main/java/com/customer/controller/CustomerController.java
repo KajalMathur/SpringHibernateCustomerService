@@ -33,7 +33,7 @@ public class CustomerController {
 	/* Post request */
 	@PostMapping("/customers")
 	public String createCustomer(@Valid @RequestBody Customer customer) {
-
+		System.out.print("Hello++++" + customer.getAddress());
 		customerServiceImpl.createCustomer(customer);
 		return "Customer is created successfully";
 

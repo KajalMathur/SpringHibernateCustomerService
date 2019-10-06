@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.customer.CustomerResponse.CustomerResponse;
+import com.customer.address.Address;
 import com.customer.customerModel.Customer;
 import com.customer.customerRepo.CustomerRepository;
 
@@ -22,6 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public void createCustomer(Customer cust) {
+		System.out.print(cust.getAddress().getState());
 		cust.setExpiryDate(expdate);
 		customerRepo.save(cust);
 	}
@@ -30,10 +32,18 @@ public class CustomerServiceImpl implements CustomerService {
 	public List<CustomerResponse> getAllCustomers() {
 		List<Customer> cust = customerRepo.findAll();
 		List<CustomerResponse> custResp = cust.stream().map(cus -> {
-			CustomerResponse customerResponse = CustomerResponse.builder().id(cus.getId()).firstName(cus.getAddress())
-					.lastName(cus.getLastName()).address(cus.getAddress()).joiningDate(cus.getJoiningDate())
-					.expiryDate(cus.getExpiryDate()).build();
+			CustomerResponse customerResponse = CustomerResponse.builder().id(cus.getId()).firstName(cus.getFirstName())
+					.lastName(cus.getLastName()).joiningDate(cus.getJoiningDate()).expiryDate(cus.getExpiryDate())
+					.build();
 			customerResponse.setStatus(cus.getJoiningDate(), cus.getExpiryDate());
+			Address ad = new Address();
+			ad.setAddressId(cus.getAddress().getAddressId());
+			ad.setState(cus.getAddress().getState());
+			ad.setStreetName(cus.getAddress().getStreetName());
+			ad.setCountry(cus.getAddress().getCountry());
+
+			customerResponse.setAddress(ad);
+
 			return customerResponse;
 		}).collect(Collectors.toList());
 		return custResp;

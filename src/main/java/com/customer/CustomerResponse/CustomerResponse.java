@@ -3,6 +3,8 @@ package com.customer.CustomerResponse;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.customer.address.Address;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +17,7 @@ public class CustomerResponse {
 	private int id;
 	private String firstName;
 	private String lastName;
-	private String address;
+	private Address address;
 	private Date joiningDate;
 	private Date expiryDate;
 	private String status;
