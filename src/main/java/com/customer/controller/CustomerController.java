@@ -19,8 +19,13 @@ import com.customer.service.CustomerServiceImpl;
 @RequestMapping("/api")
 public class CustomerController {
 
+	private CustomerServiceImpl customerServiceImpl;
+
 	@Autowired
-	CustomerServiceImpl customerServiceImpl;
+	CustomerController(CustomerServiceImpl customerServiceImpl)
+	{
+		this.customerServiceImpl = customerServiceImpl;
+	}
 
 	// get the list of all the customers
 	@GetMapping("/customers")
@@ -33,7 +38,6 @@ public class CustomerController {
 	/* Post request */
 	@PostMapping("/customers")
 	public String createCustomer(@Valid @RequestBody Customer customer) {
-		System.out.print("Hello++++" + customer.getAddress());
 		customerServiceImpl.createCustomer(customer);
 		return "Customer is created successfully";
 
