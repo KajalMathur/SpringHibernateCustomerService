@@ -20,9 +20,14 @@ public class CustomerResponse {
 	private Address address;
 	private Date joiningDate;
 	private Date expiryDate;
-	private String status;
+	Status status;
 
-	public void setStatus(Date joiningDate, Date expiryDate) {
+	private enum Status {
+		New, Experienced, Expired, Invalid;
+	}
+
+	public Status setStatus(Date joiningDate, Date expiryDate) {
+
 		Calendar c = Calendar.getInstance();
 		Date currentDate = c.getTime();
 
@@ -31,16 +36,17 @@ public class CustomerResponse {
 		Date experienceDate = c.getTime();
 
 		if ((currentDate.after(expiryDate)))
-			status = "Expired";
+			status = Status.Expired;
 		else if (currentDate.after(experienceDate))
-			status = "Experienced";
+			status = Status.Experienced;
 		else if (currentDate.before(experienceDate))
-			status = "New";
+			status = Status.New;
 		else
-			status = "Invalid Status";
+			status = Status.Invalid;
+		return status;
 	}
 
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 

@@ -1,6 +1,6 @@
 package com.customer.service;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.customer.CustomerResponse.CustomerResponse;
-import com.customer.address.Address;
-import com.customer.customerModel.Customer;
-import com.customer.customerRepo.CustomerRepository;
+import com.customer.model.Customer;
+import com.customer.repository.CustomerRepository;
+import com.customer.sorting.SortingComparator;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -25,78 +25,45 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Value("${spring.customer.expDate}")
-	private int expdate;
+	private int expDate;
 
 	@Override
-	public void createCustomer(Customer cust) {
-		System.out.print(cust.getAddress().getState());
-		cust.setExpiryDate(expdate);
-		customerRepo.save(cust);
+	public Customer createCustomer(Customer cust) {
+		cust.setExpiryDate(expDate);
+		return customerRepo.save(cust);
 	}
 
 	@Override
 	public List<CustomerResponse> getAllCustomers() {
-		List<Customer> cust = customerRepo.findAll();
-		List<CustomerResponse> custResp = cust.stream().map(cus -> {
+		List<Customer> custList = customerRepo.findAll();
+		List<CustomerResponse> custRespList = custList.stream().map(cus -> {
 			CustomerResponse customerResponse = CustomerResponse.builder().id(cus.getId()).firstName(cus.getFirstName())
 					.lastName(cus.getLastName()).joiningDate(cus.getJoiningDate()).expiryDate(cus.getExpiryDate())
+					.address(cus.getAddress())
 					.build();
 			customerResponse.setStatus(cus.getJoiningDate(), cus.getExpiryDate());
-			Address ad = new Address();
-			ad.setAddressId(cus.getAddress().getAddressId());
-			ad.setState(cus.getAddress().getState());
-			ad.setStreetName(cus.getAddress().getStreetName());
-			ad.setCountry(cus.getAddress().getCountry());
-
-			customerResponse.setAddress(ad);
 			return customerResponse;
 		}).collect(Collectors.toList());
-
-		List<CustomerResponse> custR1 = new ArrayList<CustomerResponse>();
-		List<CustomerResponse> custR2 = new ArrayList<CustomerResponse>();
-		custResp.forEach(custResp1 -> {
-			if (custResp1.getAddress().getCountry().equalsIgnoreCase("india"))
-				custR1.add(custResp1);
-			else
-				custR2.add(custResp1);
-		});
-		custR2.addAll(custR1);
-		return custR2;
+		Collections.sort(custRespList, new SortingComparator());
+		return custRespList;
 	}
 
 	@Override
-	public Optional<Customer> findCustomerById(int id) {
+	public Object findCustomerById(int id) {
 		// TODO Auto-generated method stub
-		return null;
-	}
+		Optional<Customer> cus = customerRepo.findById(id);
+		if (cus.isPresent()) {
+			CustomerResponse customerResponse = CustomerResponse.builder().id(cus.get().getId())
+					.firstName(cus.get().getFirstName()).lastName(cus.get().getLastName())
+					.joiningDate(cus.get().getJoiningDate()).expiryDate(cus.get().getExpiryDate())
+					.address(cus.get().getAddress()).build();
+			customerResponse.setStatus(cus.get().getJoiningDate(), cus.get().getExpiryDate());
+			return customerResponse;
+		}
 
-	@Override
-	public void deleteCustomerById(int id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updateCustomer(Customer cust) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteAllCustomers() {
-		// TODO Auto-generated method stub
+		else
+			return "No data found for the requested user";
 
 	}
-
-	@Override
-	public Optional<Customer> findProductById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void createProduct(Customer cust) {
-		customerRepo.save(cust);
-	}
-
 }
+
