@@ -6,11 +6,9 @@ import java.util.Date;
 import com.customer.address.Address;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Builder
 public class CustomerResponse {
 
@@ -22,8 +20,8 @@ public class CustomerResponse {
 	private Date expiryDate;
 	Status status;
 
-	private enum Status {
-		New, Experienced, Expired, Invalid;
+	public enum Status {
+		NEW, EXPERIENCED, EXPIRED, INVALID;
 	}
 
 	public Status setStatus(Date joiningDate, Date expiryDate) {
@@ -36,13 +34,13 @@ public class CustomerResponse {
 		Date experienceDate = c.getTime();
 
 		if ((currentDate.after(expiryDate)))
-			status = Status.Expired;
+			status = Status.EXPIRED;
 		else if (currentDate.after(experienceDate))
-			status = Status.Experienced;
+			status = Status.EXPERIENCED;
 		else if (currentDate.before(experienceDate))
-			status = Status.New;
+			status = Status.NEW;
 		else
-			status = Status.Invalid;
+			status = Status.INVALID;
 		return status;
 	}
 
