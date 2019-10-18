@@ -12,5 +12,4 @@ public interface CustomerService {
 	public List<CustomerResponse> getAllCustomers();
 
 	public CustomerResponse findCustomerById(int id);
-
 }

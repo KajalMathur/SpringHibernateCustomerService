@@ -47,9 +47,8 @@ public class CustomerController {
 
 	/* get the customer by Id */
 	@GetMapping("/customers/{id}")
-	public @ResponseBody Object findCustomerById(@PathVariable int id) {
+	public @ResponseBody CustomerResponse findCustomerById(@PathVariable int id) {
 		return customerServiceImpl.findCustomerById(id);
-
 	}
 
 }

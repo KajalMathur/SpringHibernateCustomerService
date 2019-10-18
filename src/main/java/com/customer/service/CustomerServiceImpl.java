@@ -62,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
 			return customerResponse;
 		}
 		else
-			throw new CustomerNotFoundException("");
+			throw new CustomerNotFoundException("Customer not found for id = ", id);
 	}
 }
 

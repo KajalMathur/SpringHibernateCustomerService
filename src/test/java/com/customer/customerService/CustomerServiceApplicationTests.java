@@ -57,7 +57,6 @@ public class CustomerServiceApplicationTests {
 		c.setTime(date);
 		c.add(Calendar.YEAR, 2);
 		Date experienceDate = c.getTime();
-
 		Address address = Address.builder().streetName("Abc1").state("Haryana").country("India").build();
 		Address address1 = Address.builder().streetName("Abc2").state("Delhi").country("France").build();
 		Customer c1 = Customer.builder().firstName("Ram").lastName("shaerma").joiningDate(date)
@@ -75,8 +74,6 @@ public class CustomerServiceApplicationTests {
 		List<CustomerResponse> customerResponseList = customerServiceImpl.getAllCustomers();
 
 		// Then
-		System.out.print("Joining and expiry date=" + customerResponseList.get(1).getJoiningDate() + " "
-				+ customerResponseList.get(1).getExpiryDate());
 		Assert.assertNotNull(customerResponseList);
 		Assert.assertEquals(customerResponseList.size(), 2);
 		Assert.assertEquals(c1.getFirstName(), customerResponseList.get(1).getFirstName());
