@@ -43,9 +43,4 @@ public class CustomerResponse {
 			status = Status.INVALID;
 		return status;
 	}
-
-	public Status getStatus() {
-		return status;
-	}
-
 }

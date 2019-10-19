@@ -28,9 +28,6 @@ public class CustomerServiceApplicationTests {
 	@Mock
 	CustomerRepository customerRepository;
 
-	@Mock
-	CustomerResponse customerResponse;
-
 	@InjectMocks
 	CustomerServiceImpl customerServiceImpl;
 
@@ -56,19 +53,17 @@ public class CustomerServiceApplicationTests {
 		Date currentDate = c.getTime();
 		c.setTime(date);
 		c.add(Calendar.YEAR, 2);
-		Date experienceDate = c.getTime();
+		Date expiryDate = c.getTime();
 		Address address = Address.builder().streetName("Abc1").state("Haryana").country("India").build();
 		Address address1 = Address.builder().streetName("Abc2").state("Delhi").country("France").build();
 		Customer c1 = Customer.builder().firstName("Ram").lastName("shaerma").joiningDate(date)
-				.expiryDate(experienceDate).address(address).build();
+				.expiryDate(expiryDate).address(address).build();
 		Customer c2 = Customer.builder().firstName("Sita").lastName("Gupta").joiningDate(date)
-				.expiryDate(experienceDate).address(address1).build();
+				.expiryDate(expiryDate).address(address1).build();
 		List<Customer> customer = new ArrayList<>();
 		customer.add(c1);
 		customer.add(c2);
 		when(customerRepository.findAll()).thenReturn(customer);
-		when(customerResponse.setStatus(date, experienceDate)).thenReturn(CustomerResponse.Status.NEW);
-		when(customerResponse.getStatus()).thenReturn(CustomerResponse.Status.NEW);
 
 		// When
 		List<CustomerResponse> customerResponseList = customerServiceImpl.getAllCustomers();
