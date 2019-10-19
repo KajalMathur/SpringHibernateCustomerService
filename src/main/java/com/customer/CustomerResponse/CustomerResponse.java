@@ -3,24 +3,29 @@ package com.customer.CustomerResponse;
 import java.util.Calendar;
 import java.util.Date;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.customer.address.Address;
 
-@Getter
-@Setter
+import lombok.Builder;
+import lombok.Data;
+
+@Data
 @Builder
 public class CustomerResponse {
 
 	private int id;
 	private String firstName;
 	private String lastName;
-	private String address;
+	private Address address;
 	private Date joiningDate;
 	private Date expiryDate;
-	private String status;
+	Status status;
 
-	public void setStatus(Date joiningDate, Date expiryDate) {
+	public enum Status {
+		NEW, EXPERIENCED, EXPIRED, INVALID;
+	}
+
+	public Status setStatus(Date joiningDate, Date expiryDate) {
+
 		Calendar c = Calendar.getInstance();
 		Date currentDate = c.getTime();
 
@@ -29,17 +34,13 @@ public class CustomerResponse {
 		Date experienceDate = c.getTime();
 
 		if ((currentDate.after(expiryDate)))
-			status = "Expired";
+			status = Status.EXPIRED;
 		else if (currentDate.after(experienceDate))
-			status = "Experienced";
+			status = Status.EXPERIENCED;
 		else if (currentDate.before(experienceDate))
-			status = "New";
+			status = Status.NEW;
 		else
-			status = "Invalid Status";
-	}
-
-	public String getStatus() {
+			status = Status.INVALID;
 		return status;
 	}
-
 }
