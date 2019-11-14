@@ -56,10 +56,10 @@ public class CustomerServiceApplicationTests {
 		Date expiryDate = c.getTime();
 		Address address = Address.builder().streetName("Abc1").state("Haryana").country("India").build();
 		Address address1 = Address.builder().streetName("Abc2").state("Delhi").country("France").build();
-		Customer c1 = Customer.builder().firstName("Ram").lastName("shaerma").joiningDate(date)
-				.expiryDate(expiryDate).address(address).build();
-		Customer c2 = Customer.builder().firstName("Sita").lastName("Gupta").joiningDate(date)
-				.expiryDate(expiryDate).address(address1).build();
+		Customer c1 = Customer.builder().firstName("Ram").lastName("shaerma").joiningDate(date).expiryDate(expiryDate)
+				.address(address).build();
+		Customer c2 = Customer.builder().firstName("Sita").lastName("Gupta").joiningDate(date).expiryDate(expiryDate)
+				.address(address1).build();
 		List<Customer> customer = new ArrayList<>();
 		customer.add(c1);
 		customer.add(c2);

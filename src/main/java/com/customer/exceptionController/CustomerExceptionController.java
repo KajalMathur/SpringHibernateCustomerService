@@ -10,7 +10,7 @@ import com.customer.exception.CustomerNotFoundException;
 @ControllerAdvice
 public class CustomerExceptionController {
 
-	@ExceptionHandler(value = CustomerNotFoundException.class )
+	@ExceptionHandler(value = CustomerNotFoundException.class)
 	public ResponseEntity<String> exception(CustomerNotFoundException exception) {
 		return new ResponseEntity<String>(exception.getMessage() + exception.getErrorCode(), HttpStatus.NOT_FOUND);
 	}
