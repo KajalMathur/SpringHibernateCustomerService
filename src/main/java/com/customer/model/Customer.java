@@ -32,18 +32,22 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@NotBlank
+	@NotBlank(message = "name.required")
 	private String firstName;
 
 	@NotBlank
 	private String lastName;
 
+	@NotBlank
+	private String userName;
+
+	@NotBlank
+	private String password;
+
 	@CreationTimestamp
 	private Date joiningDate;
 
-
 	private Date expiryDate;
-
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Address address;
@@ -54,6 +58,5 @@ public class Customer {
 		Date newDate = c.getTime();
 		expiryDate = newDate;
 	}
-
 
 }
