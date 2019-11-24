@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.customer.CustomerResponse.CustomerResponse;
+import com.customer.exception.InvalidRequest;
 import com.customer.model.Customer;
 import com.customer.service.CustomerServiceImpl;
 
@@ -41,13 +42,12 @@ public class CustomerController {
 
 	/* Post request */
 	@PostMapping("/customerRegister")
-	public String createCustomer(@Valid @RequestBody Customer customer) {
-		try {
+	public ResponseEntity<String> createCustomer(@Valid @RequestBody Customer customer) throws InvalidRequest {
+		if (customer != null) {
 			customerServiceImpl.createCustomer(customer);
-		} catch (Exception e) {
-			System.out.print("Values can't null");
-		}
-		return "Customer is created successfully";
+			return new ResponseEntity<String>(HttpStatus.OK);
+		} else
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 
 	}
 
@@ -59,19 +59,18 @@ public class CustomerController {
 
 	/* update the customer details */
 	@PutMapping("/customers/{id}")
-	public ResponseEntity<String> updateCustomer(@PathVariable int id, @RequestBody Customer customer,
-			Principal principal) {
+	public ResponseEntity<?> updateCustomer(@PathVariable int id, @RequestBody Customer customer, Principal principal) {
 
 		customerServiceImpl.updateCustomerDetails(id, customer, principal);
 
-		return new ResponseEntity<String>("User is updated successfully", HttpStatus.OK);
+		return ResponseEntity.ok(HttpStatus.OK);
 
 	}
 
 	/* Delete the customer details */
 	@DeleteMapping("/customers/{id}")
-	public ResponseEntity<String> DeleteCustomerDetails(@PathVariable int id, Principal principal) {
-		return customerServiceImpl.deleteCustomer(id, principal);
+	public void DeleteCustomerDetails(@PathVariable int id, Principal principal) {
+		customerServiceImpl.deleteCustomer(id, principal);
 	}
 
 }

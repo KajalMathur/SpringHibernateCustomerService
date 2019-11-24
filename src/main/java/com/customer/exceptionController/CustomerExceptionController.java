@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.customer.exception.CustomerNotFoundException;
+import com.customer.exception.InvalidRequest;
 
 @ControllerAdvice
 public class CustomerExceptionController {
@@ -13,6 +14,11 @@ public class CustomerExceptionController {
 	@ExceptionHandler(value = CustomerNotFoundException.class)
 	public ResponseEntity<String> exception(CustomerNotFoundException exception) {
 		return new ResponseEntity<String>(exception.getMessage() + exception.getErrorCode(), HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(value = InvalidRequest.class)
+	public ResponseEntity<String> exception(InvalidRequest exception) {
+		return new ResponseEntity<String>(exception.getMessage(), HttpStatus.NOT_FOUND);
 	}
 
 }

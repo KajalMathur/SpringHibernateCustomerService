@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -76,7 +74,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public ResponseEntity<String> updateCustomerDetails(int id, Customer customer, Principal principal) {
+	public Customer updateCustomerDetails(int id, Customer customer, Principal principal) {
 		String userName = principal.getName(); // get logged in username
 		Optional<Customer> customerRes = customerRepository.findById(id);
 		if (customerRes.isPresent()) {
@@ -85,8 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
 				customer.setJoiningDate(customerRes.get().getJoiningDate());
 				customer.setExpiryDate(expiryDate);
 				customer.setPassword(bcryptEncoder.encode(customer.getPassword()));
-				customerRepository.save(customer);
-				return new ResponseEntity<String>("User is updated successfully", HttpStatus.OK);
+				return customerRepository.save(customer);
 			} else
 				throw new CustomerNotFoundException("User cann't access the another user details Id = ", id);
 		} else
@@ -95,13 +92,12 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public ResponseEntity<String> deleteCustomer(int id, Principal principal) {
+	public void deleteCustomer(int id, Principal principal) {
 		String userName = principal.getName();
 		Optional<Customer> customer = customerRepository.findById(id);
 		if (customer.isPresent()) {
 			if (customer.get().getUserName().equals(userName) && customer.get().getId() == id) {
 				customerRepository.deleteById(id);
-				return new ResponseEntity<String>("User is deleted successfully", HttpStatus.OK);
 			} else
 				throw new CustomerNotFoundException("User cann't access the another other details = ", id);
 		} else
