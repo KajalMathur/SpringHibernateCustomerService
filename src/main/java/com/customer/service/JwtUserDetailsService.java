@@ -3,10 +3,12 @@ package com.customer.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
 
 import com.customer.model.Customer;
 import com.customer.repository.CustomerRepository;
@@ -24,8 +26,6 @@ public class JwtUserDetailsService implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found with username: " + userName);
 		}
-		return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
-				new ArrayList<>());
+		return new User(user.getUserName(), user.getPassword(),new ArrayList<>());
 	}
-
 }

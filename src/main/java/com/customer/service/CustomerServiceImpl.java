@@ -13,10 +13,14 @@ import org.springframework.stereotype.Service;
 
 import com.customer.CustomerResponse.CustomerResponse;
 import com.customer.exception.CustomerNotFoundException;
+import com.customer.exception.ForbiddenException;
 import com.customer.model.Customer;
 import com.customer.repository.CustomerRepository;
 import com.customer.sorting.SortingComparator;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -35,10 +39,12 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Customer createCustomer(Customer customer) {
+		
 		customer.setExpiryDate(expiryDate);
 		customer.setPassword(bcryptEncoder.encode(customer.getPassword()));
 		return customerRepository.save(customer);
 	}
+		 
 
 	@Override
 	public List<CustomerResponse> getAllCustomers() {
@@ -68,7 +74,7 @@ public class CustomerServiceImpl implements CustomerService {
 				customerResponse.setStatus(customer.get().getJoiningDate(), customer.get().getExpiryDate());
 				return customerResponse;
 			} else
-				throw new CustomerNotFoundException("User cann't access the another other details = ", id);
+				throw new ForbiddenException("Invalid Credentials");
 		} else
 			throw new CustomerNotFoundException("Customer not found for id = ", id);
 	}
@@ -79,16 +85,21 @@ public class CustomerServiceImpl implements CustomerService {
 		Optional<Customer> customerRes = customerRepository.findById(id);
 		if (customerRes.isPresent()) {
 			if (customerRes.get().getUserName().equals(userName) && customerRes.get().getId() == id) {
-				customer.setId(id);
-				customer.setJoiningDate(customerRes.get().getJoiningDate());
-				customer.setExpiryDate(expiryDate);
-				customer.setPassword(bcryptEncoder.encode(customer.getPassword()));
-				return customerRepository.save(customer);
+			Customer customerResp=	customer.builder()
+				.id(id)
+				.expiryDate(customer.setExpiryDate(expiryDate))
+				.joiningDate(customerRes.get().getJoiningDate())
+				.password(bcryptEncoder.encode(customer.getPassword()))
+				.firstName(customer.getFirstName())
+				.lastName(customer.getLastName())
+				.address(customer.getAddress())
+				.userName(customer.getUserName())
+				.build();
+				return customerRepository.save(customerResp);
 			} else
-				throw new CustomerNotFoundException("User cann't access the another user details Id = ", id);
+				throw new ForbiddenException("Invalid Credentials");
 		} else
 			throw new CustomerNotFoundException("Customer not found with Id = ", id);
-
 	}
 
 	@Override
@@ -99,10 +110,8 @@ public class CustomerServiceImpl implements CustomerService {
 			if (customer.get().getUserName().equals(userName) && customer.get().getId() == id) {
 				customerRepository.deleteById(id);
 			} else
-				throw new CustomerNotFoundException("User cann't access the another other details = ", id);
+				throw new ForbiddenException("Invalid Credentials");
 		} else
 			throw new CustomerNotFoundException("Customer not found for id = ", id);
-
 	}
-
 }

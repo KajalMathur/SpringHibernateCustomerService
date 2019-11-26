@@ -25,11 +25,10 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException)
-			throws IllegalArgumentException, ExpiredJwtException, MalformedJwtException, IOException, ServletException {
+			throws ServletException, IOException , IllegalArgumentException , ExpiredJwtException {
 
 		response.setContentType("application/json");
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.getOutputStream().println("{\n" + " error :" + authException.getMessage() + "\n }");
 	}
-
 }

@@ -32,7 +32,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-			throws ServletException, IOException {
+			throws ServletException, IOException , IllegalArgumentException , ExpiredJwtException {
 
 		final String requestTokenHeader = request.getHeader("Authorization");
 
@@ -41,33 +41,24 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
 			jwtToken = requestTokenHeader.substring(7);
-			try {
 				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-			} catch (IllegalArgumentException e) {
-				log.info("Unable to get JWT Token");
-			} catch (ExpiredJwtException e) {
-				log.info("JWT Token has expired");
-			}
-		} else {
-			log.info("JWT Token does not begin with Bearer String");
 		}
 
-		// Once we get the token validate it.
+		/*  Once we get the token validate it. */
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
 			UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
 
 			if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
 
-				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-						userDetails, null, userDetails.getAuthorities());
+				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 				usernamePasswordAuthenticationToken
-						.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+				.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				SecurityContextHolder
+				.getContext()
+				.setAuthentication(usernamePasswordAuthenticationToken);
 			}
 		}
 		chain.doFilter(request, response);
 	}
-
 }

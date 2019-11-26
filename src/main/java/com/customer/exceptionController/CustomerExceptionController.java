@@ -4,8 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.customer.exception.CustomerNotFoundException;
+import com.customer.exception.ForbiddenException;
 import com.customer.exception.InvalidRequest;
 
 @ControllerAdvice
@@ -13,12 +15,16 @@ public class CustomerExceptionController {
 
 	@ExceptionHandler(value = CustomerNotFoundException.class)
 	public ResponseEntity<String> exception(CustomerNotFoundException exception) {
-		return new ResponseEntity<String>(exception.getMessage() + exception.getErrorCode(), HttpStatus.NOT_FOUND);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
 	}
 
 	@ExceptionHandler(value = InvalidRequest.class)
 	public ResponseEntity<String> exception(InvalidRequest exception) {
-		return new ResponseEntity<String>(exception.getMessage(), HttpStatus.NOT_FOUND);
+		return ResponseEntity.badRequest().body(exception.getMessage());
+		}
+	
+	@ExceptionHandler(value = ForbiddenException.class)
+	public ResponseEntity<String>  exception(ForbiddenException exception) {
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
 	}
-
 }

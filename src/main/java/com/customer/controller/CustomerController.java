@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.customer.CustomerResponse.CustomerResponse;
+import com.customer.exception.ForbiddenException;
 import com.customer.exception.InvalidRequest;
 import com.customer.model.Customer;
 import com.customer.service.CustomerServiceImpl;
@@ -34,7 +35,7 @@ public class CustomerController {
 		this.customerServiceImpl = customerServiceImpl;
 	}
 
-	// get the list of all the customers
+	/*  get the list of all the customers */
 	@GetMapping("/customers")
 	public List<CustomerResponse> getAllCustomers() {
 		return customerServiceImpl.getAllCustomers();
@@ -42,13 +43,12 @@ public class CustomerController {
 
 	/* Post request */
 	@PostMapping("/customerRegister")
-	public ResponseEntity<String> createCustomer(@Valid @RequestBody Customer customer) throws InvalidRequest {
+	public ResponseEntity<Void> createCustomer(@Valid @RequestBody Customer customer) throws InvalidRequest {
 		if (customer != null) {
 			customerServiceImpl.createCustomer(customer);
-			return new ResponseEntity<String>(HttpStatus.OK);
+			return ResponseEntity.ok().build();
 		} else
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-
+		 throw new ForbiddenException("Please provide valid credentials");
 	}
 
 	/* get the customer by Id */
@@ -59,12 +59,9 @@ public class CustomerController {
 
 	/* update the customer details */
 	@PutMapping("/customers/{id}")
-	public ResponseEntity<?> updateCustomer(@PathVariable int id, @RequestBody Customer customer, Principal principal) {
-
+	public ResponseEntity<Void> updateCustomer(@PathVariable int id, @RequestBody Customer customer, Principal principal) {
 		customerServiceImpl.updateCustomerDetails(id, customer, principal);
-
-		return ResponseEntity.ok(HttpStatus.OK);
-
+		return ResponseEntity.ok().build();
 	}
 
 	/* Delete the customer details */
@@ -72,5 +69,4 @@ public class CustomerController {
 	public void DeleteCustomerDetails(@PathVariable int id, Principal principal) {
 		customerServiceImpl.deleteCustomer(id, principal);
 	}
-
 }
