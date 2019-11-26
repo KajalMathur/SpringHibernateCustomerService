@@ -59,7 +59,7 @@ public class Customer {
 		expiryDate = newDate;
 		return expiryDate;
 	}
-	
+
 	public String setPassword(String password) {
 		this.password = password;
 		return password;

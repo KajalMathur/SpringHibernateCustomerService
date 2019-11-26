@@ -22,6 +22,6 @@ public class SortingComparator implements Comparator<CustomerResponse> {
 			return 0;
 		else
 			return 0;
-}
+	}
 
 }

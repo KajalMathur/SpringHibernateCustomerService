@@ -39,12 +39,11 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Customer createCustomer(Customer customer) {
-		
+
 		customer.setExpiryDate(expiryDate);
 		customer.setPassword(bcryptEncoder.encode(customer.getPassword()));
 		return customerRepository.save(customer);
 	}
-		 
 
 	@Override
 	public List<CustomerResponse> getAllCustomers() {
@@ -85,16 +84,11 @@ public class CustomerServiceImpl implements CustomerService {
 		Optional<Customer> customerRes = customerRepository.findById(id);
 		if (customerRes.isPresent()) {
 			if (customerRes.get().getUserName().equals(userName) && customerRes.get().getId() == id) {
-			Customer customerResp=	customer.builder()
-				.id(id)
-				.expiryDate(customer.setExpiryDate(expiryDate))
-				.joiningDate(customerRes.get().getJoiningDate())
-				.password(bcryptEncoder.encode(customer.getPassword()))
-				.firstName(customer.getFirstName())
-				.lastName(customer.getLastName())
-				.address(customer.getAddress())
-				.userName(customer.getUserName())
-				.build();
+				Customer customerResp = customer.builder().id(id).expiryDate(customer.setExpiryDate(expiryDate))
+						.joiningDate(customerRes.get().getJoiningDate())
+						.password(bcryptEncoder.encode(customer.getPassword())).firstName(customer.getFirstName())
+						.lastName(customer.getLastName()).address(customer.getAddress())
+						.userName(customer.getUserName()).build();
 				return customerRepository.save(customerResp);
 			} else
 				throw new ForbiddenException("Invalid Credentials");
@@ -113,5 +107,9 @@ public class CustomerServiceImpl implements CustomerService {
 				throw new ForbiddenException("Invalid Credentials");
 		} else
 			throw new CustomerNotFoundException("Customer not found for id = ", id);
+	}
+
+	public Optional<Customer> findCustomerById(int id) {
+		return customerRepository.findById(id);
 	}
 }

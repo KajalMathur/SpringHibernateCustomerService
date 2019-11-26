@@ -2,11 +2,11 @@ package com.customer.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +35,7 @@ public class CustomerController {
 		this.customerServiceImpl = customerServiceImpl;
 	}
 
-	/*  get the list of all the customers */
+	/* get the list of all the customers */
 	@GetMapping("/customers")
 	public List<CustomerResponse> getAllCustomers() {
 		return customerServiceImpl.getAllCustomers();
@@ -48,7 +48,7 @@ public class CustomerController {
 			customerServiceImpl.createCustomer(customer);
 			return ResponseEntity.ok().build();
 		} else
-		 throw new ForbiddenException("Please provide valid credentials");
+			throw new ForbiddenException("Please provide valid credentials");
 	}
 
 	/* get the customer by Id */
@@ -59,7 +59,8 @@ public class CustomerController {
 
 	/* update the customer details */
 	@PutMapping("/customers/{id}")
-	public ResponseEntity<Void> updateCustomer(@PathVariable int id, @RequestBody Customer customer, Principal principal) {
+	public ResponseEntity<Void> updateCustomer(@PathVariable int id, @RequestBody Customer customer,
+			Principal principal) {
 		customerServiceImpl.updateCustomerDetails(id, customer, principal);
 		return ResponseEntity.ok().build();
 	}
@@ -68,5 +69,11 @@ public class CustomerController {
 	@DeleteMapping("/customers/{id}")
 	public void DeleteCustomerDetails(@PathVariable int id, Principal principal) {
 		customerServiceImpl.deleteCustomer(id, principal);
+	}
+
+	/* get the customer by Id */
+	@GetMapping("/customer/{id}")
+	public @ResponseBody Optional<Customer> findCustomerById(@PathVariable int id) {
+		return customerServiceImpl.findCustomerById(id);
 	}
 }

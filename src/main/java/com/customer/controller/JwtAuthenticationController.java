@@ -3,8 +3,6 @@ package com.customer.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,9 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 /*
- * For supporting CORS @CrossOrigin is supported by
- * SpringBoot and by default @CrossOrigin allows
- * all origin and HTTP methods specified
+ * For supporting CORS @CrossOrigin is supported by SpringBoot and by
+ * default @CrossOrigin allows all origin and HTTP methods specified
  */
 @CrossOrigin
 @Slf4j

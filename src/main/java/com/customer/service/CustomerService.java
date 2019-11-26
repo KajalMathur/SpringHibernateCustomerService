@@ -2,6 +2,7 @@ package com.customer.service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import com.customer.CustomerResponse.CustomerResponse;
 import com.customer.model.Customer;
@@ -17,4 +18,6 @@ public interface CustomerService {
 	Customer updateCustomerDetails(int id, Customer customer, Principal principal);
 
 	CustomerResponse findCustomerById(int id, Principal pricipal);
+
+	public Optional<Customer> findCustomerById(int id);
 }

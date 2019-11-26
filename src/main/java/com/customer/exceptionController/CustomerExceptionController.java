@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.customer.exception.CustomerNotFoundException;
 import com.customer.exception.ForbiddenException;
@@ -21,10 +20,10 @@ public class CustomerExceptionController {
 	@ExceptionHandler(value = InvalidRequest.class)
 	public ResponseEntity<String> exception(InvalidRequest exception) {
 		return ResponseEntity.badRequest().body(exception.getMessage());
-		}
-	
+	}
+
 	@ExceptionHandler(value = ForbiddenException.class)
-	public ResponseEntity<String>  exception(ForbiddenException exception) {
+	public ResponseEntity<String> exception(ForbiddenException exception) {
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
 	}
 }

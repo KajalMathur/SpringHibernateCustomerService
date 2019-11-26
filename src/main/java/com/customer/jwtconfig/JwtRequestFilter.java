@@ -32,7 +32,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-			throws ServletException, IOException , IllegalArgumentException , ExpiredJwtException {
+			throws ServletException, IOException, IllegalArgumentException, ExpiredJwtException {
 
 		final String requestTokenHeader = request.getHeader("Authorization");
 
@@ -41,22 +41,21 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
 			jwtToken = requestTokenHeader.substring(7);
-				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+			username = jwtTokenUtil.getUsernameFromToken(jwtToken);
 		}
 
-		/*  Once we get the token validate it. */
+		/* Once we get the token validate it. */
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
 			UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
 
 			if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
 
-				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+						userDetails, null, userDetails.getAuthorities());
 				usernamePasswordAuthenticationToken
-				.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-				SecurityContextHolder
-				.getContext()
-				.setAuthentication(usernamePasswordAuthenticationToken);
+						.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 			}
 		}
 		chain.doFilter(request, response);

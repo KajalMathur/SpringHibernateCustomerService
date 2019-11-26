@@ -11,7 +11,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
 
 /**
  * 
@@ -25,7 +24,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException)
-			throws ServletException, IOException , IllegalArgumentException , ExpiredJwtException {
+			throws ServletException, IOException, IllegalArgumentException, ExpiredJwtException {
 
 		response.setContentType("application/json");
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
