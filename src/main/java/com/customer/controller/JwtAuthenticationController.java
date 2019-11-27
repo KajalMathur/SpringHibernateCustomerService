@@ -24,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
  * default @CrossOrigin allows all origin and HTTP methods specified
  */
 @CrossOrigin
-@Slf4j
 public class JwtAuthenticationController {
 
 	@Autowired
@@ -36,7 +35,7 @@ public class JwtAuthenticationController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
-	@PostMapping(value = "/authenticate")
+	@PostMapping("/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody Customer authenticationRequest) throws Exception {
 
 		authenticate(authenticationRequest.getUserName(), authenticationRequest.getPassword());

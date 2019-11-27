@@ -53,8 +53,8 @@ public class CustomerController {
 
 	/* get the customer by Id */
 	@GetMapping("/customers/{id}")
-	public @ResponseBody CustomerResponse findCustomerById(@PathVariable int id, Principal principal) {
-		return customerServiceImpl.findCustomerById(id, principal);
+	public @ResponseBody ResponseEntity<CustomerResponse> findCustomerById(@PathVariable int id, Principal principal) {
+		return ResponseEntity.ok().body(customerServiceImpl.findCustomerById(id, principal));
 	}
 
 	/* update the customer details */
@@ -73,7 +73,7 @@ public class CustomerController {
 
 	/* get the customer by Id */
 	@GetMapping("/customer/{id}")
-	public @ResponseBody Optional<Customer> findCustomerById(@PathVariable int id) {
-		return customerServiceImpl.findCustomerById(id);
+	public @ResponseBody ResponseEntity<CustomerResponse> findCustomerById(@PathVariable int id) {
+		return ResponseEntity.ok().body(customerServiceImpl.findCustomerById(id));
 	}
 }

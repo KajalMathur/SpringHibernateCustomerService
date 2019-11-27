@@ -20,7 +20,6 @@ import com.customer.sorting.SortingComparator;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -83,7 +82,7 @@ public class CustomerServiceImpl implements CustomerService {
 		String userName = principal.getName(); // get logged in username
 		Optional<Customer> customerRes = customerRepository.findById(id);
 		if (customerRes.isPresent()) {
-			if (customerRes.get().getUserName().equals(userName) && customerRes.get().getId() == id) {
+			if (customerRes.get().getUserName().equals(userName)) {
 				Customer customerResp = customer.builder().id(id).expiryDate(customer.setExpiryDate(expiryDate))
 						.joiningDate(customerRes.get().getJoiningDate())
 						.password(bcryptEncoder.encode(customer.getPassword())).firstName(customer.getFirstName())
@@ -101,7 +100,7 @@ public class CustomerServiceImpl implements CustomerService {
 		String userName = principal.getName();
 		Optional<Customer> customer = customerRepository.findById(id);
 		if (customer.isPresent()) {
-			if (customer.get().getUserName().equals(userName) && customer.get().getId() == id) {
+			if (customer.get().getId() == id) {
 				customerRepository.deleteById(id);
 			} else
 				throw new ForbiddenException("Invalid Credentials");
@@ -109,7 +108,21 @@ public class CustomerServiceImpl implements CustomerService {
 			throw new CustomerNotFoundException("Customer not found for id = ", id);
 	}
 
-	public Optional<Customer> findCustomerById(int id) {
-		return customerRepository.findById(id);
+	public CustomerResponse findCustomerById(int id) {
+		
+		Optional<Customer> customer = customerRepository.findById(id);
+
+		if (customer.isPresent()) {
+			if (customer.get().getId() == id) {
+				CustomerResponse customerResponse = CustomerResponse.builder().id(customer.get().getId())
+						.firstName(customer.get().getFirstName()).lastName(customer.get().getLastName())
+						.joiningDate(customer.get().getJoiningDate()).expiryDate(customer.get().getExpiryDate())
+						.address(customer.get().getAddress()).build();
+				customerResponse.setStatus(customer.get().getJoiningDate(), customer.get().getExpiryDate());
+				return customerResponse;
+			} else
+				throw new ForbiddenException("Invalid Credentials");
+		} else
+			throw new CustomerNotFoundException("Customer not found for id = ",id);
 	}
 }

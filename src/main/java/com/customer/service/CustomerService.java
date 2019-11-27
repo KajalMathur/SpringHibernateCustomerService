@@ -19,5 +19,5 @@ public interface CustomerService {
 
 	CustomerResponse findCustomerById(int id, Principal pricipal);
 
-	public Optional<Customer> findCustomerById(int id);
+	public CustomerResponse findCustomerById(int id);
 }

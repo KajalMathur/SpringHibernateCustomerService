@@ -14,7 +14,7 @@ public class CustomerExceptionController {
 
 	@ExceptionHandler(value = CustomerNotFoundException.class)
 	public ResponseEntity<String> exception(CustomerNotFoundException exception) {
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage()+exception.getErrorCode());
 	}
 
 	@ExceptionHandler(value = InvalidRequest.class)
