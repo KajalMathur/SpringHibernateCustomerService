@@ -37,8 +37,8 @@ public class CustomerController {
 
 	/* get the list of all the customers */
 	@GetMapping("/customers")
-	public List<CustomerResponse> getAllCustomers() {
-		return customerServiceImpl.getAllCustomers();
+	public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
+		return ResponseEntity.ok().body(customerServiceImpl.getAllCustomers());
 	}
 
 	/* Post request */
@@ -67,8 +67,9 @@ public class CustomerController {
 
 	/* Delete the customer details */
 	@DeleteMapping("/customers/{id}")
-	public void DeleteCustomerDetails(@PathVariable int id, Principal principal) {
-		customerServiceImpl.deleteCustomer(id, principal);
+	public ResponseEntity<String> DeleteCustomerDetails(@PathVariable int id, Principal principal) {
+		 customerServiceImpl.deleteCustomer(id, principal);
+		 return ResponseEntity.ok().body("Customer has deleted successfully");
 	}
 
 	/* get the customer by Id */
