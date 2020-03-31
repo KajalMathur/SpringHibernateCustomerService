@@ -43,6 +43,6 @@ public class CustomerExceptionController {
 	
 	@ExceptionHandler(value = Exception.class)
 	public ResponseEntity<String> exception(Exception exception) {
-		return ResponseEntity.status(501).body(exception.getMessage());
+		return ResponseEntity.status(500).body(exception.getMessage());
 	}
 }
