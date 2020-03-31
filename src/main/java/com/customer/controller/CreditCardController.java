@@ -11,38 +11,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.customer.exception.ForbiddenException;
-import com.customer.exception.InvalidRequest;
+import com.customer.exception.BadRequest;
 import com.customer.model.CreditCard;
-import com.customer.service.CreditCardServiceImpl;
+import com.customer.service.CreditCardService;
 
 @RestController
 @RequestMapping("/api")
 public class CreditCardController {
 	
-	private CreditCardServiceImpl creditCardServiceImpl;
+	private CreditCardService creditCardService;
 	
 	// Constructor autowiring
 	@Autowired
-	public CreditCardController(CreditCardServiceImpl creditCardServiceImpl) {
-		this.creditCardServiceImpl = creditCardServiceImpl;
+	public CreditCardController(CreditCardService creditCardService) {
+		this.creditCardService = creditCardService;
 	}
 	
 	/* Post request */
 	@PostMapping("/creditCard")
-	public ResponseEntity<CreditCard> createCreditCardInfo(@RequestBody CreditCard creditCardInfo) throws InvalidRequest {
+	public ResponseEntity<CreditCard> createCreditCardInfo(@RequestBody CreditCard creditCardInfo) {
 		if (creditCardInfo != null) 
-			return ResponseEntity.ok().body(creditCardServiceImpl.createCreditCardInfo(creditCardInfo));
+			return ResponseEntity.ok().body(creditCardService.createCreditCardInfo(creditCardInfo));
 		else
-			throw new ForbiddenException("Invalid Request");
+			throw new BadRequest("Please provide the valid input parameters");
 	}
 	
 	/* Get request to fetch the credit cards details */
 	@GetMapping("/creditCard")
-	public ResponseEntity<List<CreditCard>> getCreditCardInfo(@RequestParam int year) throws InvalidRequest {
-		if(year > 0) 
-		return ResponseEntity.ok(creditCardServiceImpl.getAllCreditCardsInfo(year));
+	public ResponseEntity<List<CreditCard>> getCreditCardInfo(@RequestParam int year) {
+		if (year > 0) 
+		return ResponseEntity.ok(creditCardService.getAllCreditCardsInfo(year));
 		else
-			throw new ForbiddenException("Invalid Request");
+			throw new BadRequest("Please provide the valid input parameters");
 	}
 }
