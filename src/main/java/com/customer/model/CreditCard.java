@@ -27,17 +27,13 @@ public class CreditCard {
 	private int id;
 	
 	@NotNull
-	@Pattern(
-		    regexp = "[0-9]{16}", 
-		    message = "Card Number must be of 16 digits numeric number"
-		    )
+	@Pattern(regexp = "[0-9]{16}", 
+		    message = "Card Number must be of 16 digits numeric number")
 	private String cardNumber;
 	
 	@NotNull
-	@Pattern(
-		    regexp = "[0-9]{3}", 
-		    message = "CVV number must be of 3 digits numeric number"
-		    )
+	@Pattern(regexp = "[0-9]{3}", 
+		    message = "CVV number must be of 3 digits numeric number")
 	private String cvv;
 	
 	@NotNull

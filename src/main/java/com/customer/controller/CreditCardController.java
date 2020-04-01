@@ -25,7 +25,7 @@ public class CreditCardController {
 	@Autowired
 	public CreditCardController(CreditCardService creditCardService) {
 		this.creditCardService = creditCardService;
-		}
+	}
 	
 	/* Post request */
 	@PostMapping("/creditCard")
@@ -40,7 +40,7 @@ public class CreditCardController {
 	@GetMapping("/creditCard")
 	public ResponseEntity<List<CreditCard>> getCreditCardInfo(@RequestParam int year) {
 		if (year > 0) 
-		return ResponseEntity.ok(creditCardService.getAllCreditCardsInfo(year));
+			return ResponseEntity.ok(creditCardService.getAllCreditCardsInfo(year));
 		else
 			throw new BadRequest("Please provide the valid input parameters");
 	}
