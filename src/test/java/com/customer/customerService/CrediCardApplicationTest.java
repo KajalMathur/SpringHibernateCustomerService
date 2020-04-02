@@ -114,7 +114,7 @@ public class CrediCardApplicationTest {
 	 @Test
 	 public void verifyCreditCardPostWithoneNullValue() {
 		 when(creditCardRepositoryMock.save(creditCardDataWithNull)).thenReturn(creditCardDataWithNull);
-	     assertEquals(creditCardServiceImpl.createCreditCardInfo(creditCardDataWithNull),creditCardDataWithNull);
+		 assertEquals(creditCardServiceImpl.createCreditCardInfo(creditCardDataWithNull),creditCardDataWithNull);
 	 }
 	 
 	 /* Credit Card get request testcases */
