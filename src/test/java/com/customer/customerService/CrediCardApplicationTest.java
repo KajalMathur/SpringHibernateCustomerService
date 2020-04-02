@@ -99,7 +99,6 @@ public class CrediCardApplicationTest {
 	}
 	
 	/* Credit Card post request testcases */
-	
 	@Test
 	public void verifyCreditCardPostwithSuccess() {
 	        when(creditCardRepositoryMock.save(creditCardData)).thenReturn(creditCardData);
