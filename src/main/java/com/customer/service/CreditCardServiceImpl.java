@@ -42,4 +42,16 @@ public class CreditCardServiceImpl implements CreditCardService {
 				.collect(Collectors.toList());
 		return creditCard;
 	}
+
+	@Override
+	public void deleteCreditCardInfoById(int id) {
+		// TODO Auto-generated method stub
+		creditcardRepository.deleteById(id);
+	}
+
+	@Override
+	public void deleteAllCreditCardInfo() {
+		// TODO Auto-generated method stub
+		creditcardRepository.deleteAll();
+	}
 }
