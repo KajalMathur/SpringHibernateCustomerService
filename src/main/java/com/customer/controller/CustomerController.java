@@ -73,8 +73,8 @@ public class CustomerController {
 	}
 
 	/* get the customer by Id */
-	@GetMapping("/customer/{idp}")
-	public @ResponseBody ResponseEntity<CustomerResponse> findCustomerById(@PathVariable int idp) {
-		return ResponseEntity.ok().body(customerServiceImpl.findCustomerById(idp));
+	@GetMapping("/customer")
+	public @ResponseBody ResponseEntity<CustomerResponse> findCustomerById(@PathVariable int id) {
+		return ResponseEntity.ok().body(customerServiceImpl.findCustomerById(id));
 	}
 }
