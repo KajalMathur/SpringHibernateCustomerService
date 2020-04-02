@@ -45,7 +45,7 @@ public class CreditCardController {
 			return ResponseEntity.ok(creditCardService.getAllCreditCardsInfo(year));
 		else
 			throw new BadRequest("Please provide the valid input parameters");
-	}
+		}
 	
 	/* Delete Record by Id */
 	@DeleteMapping("/creditCard/{id}")
