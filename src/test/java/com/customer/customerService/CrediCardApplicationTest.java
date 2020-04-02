@@ -20,8 +20,6 @@ public class CrediCardApplicationTest {
 	
 	CreditCardServiceImpl creditCardServiceImpl;
 	
-	ImmutableList<CreditCard> creditCardList;
-	
 	ImmutableList<CreditCard> creditCardList1;
 	
 	ImmutableList<CreditCard> creditCardList2;
@@ -90,8 +88,6 @@ public class CrediCardApplicationTest {
 				.expiryMonth(8)
 				.expiryYear(2021)
 				.build();
-		
-		creditCardList = ImmutableList.of(creditCardData, creditCardData1, creditCardData2, creditCardData3, creditCardData4);
 		
 		creditCardList1 = ImmutableList.of(creditCardData);
 		
