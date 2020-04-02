@@ -95,7 +95,6 @@ public class CrediCardApplicationTest {
 		
 		creditCardList1 = ImmutableList.of(creditCardData);
 		
-	
 		creditCardList2 = ImmutableList.of(creditCardData, creditCardData1, creditCardData2, creditCardData3, creditCardData4);
 		
 		creditCardEmptyList = ImmutableList.of();
