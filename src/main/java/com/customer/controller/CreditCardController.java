@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +26,6 @@ public class CreditCardController {
 	// Constructor autowiring
 	@Autowired
 	public CreditCardController(CreditCardService creditCardService) {
-		// This is a master change
 		this.creditCardService = creditCardService;
 	}
 	
@@ -44,5 +45,23 @@ public class CreditCardController {
 			return ResponseEntity.ok(creditCardService.getAllCreditCardsInfo(year));
 		else
 			throw new BadRequest("Please provide the valid input parameters");
+		}
+
+	/* Delete Record by Id */
+	@DeleteMapping("/creditCard/{id}")
+	public ResponseEntity<String> deleteCreditCardById(@PathVariable int id) {
+		if (id != 0) {
+			creditCardService.deleteCreditCardInfoById(id);
+			return ResponseEntity.ok("credit card infomation for id = "+id+" has deleted successfully");
+		}
+		else
+			throw new BadRequest("Please Enter the Valid Id");
+	}
+
+	/* Delete all records */
+	@DeleteMapping("/creditCard")
+	public ResponseEntity<String> deleteAllCreditCard() {
+			creditCardService.deleteAllCreditCardInfo();
+			return ResponseEntity.ok("All credit card infomation has deleted successfully");
 	}
 }

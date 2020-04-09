@@ -1,7 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.1.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.2.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
 }
 
 group = 'com.customer'
@@ -9,62 +9,63 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 configurations {
-	developmentOnly
-	runtimeClasspath {
-		extendsFrom developmentOnly
-	}
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 ext {
-	set('springCloudVersion', "Hoxton.RC2")
-	jacocoVersion = '0.7.5.201505241946'
+    set('springCloudVersion', "Hoxton.RC2")
+    jacocoVersion = '0.7.5.201505241946'
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' 
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'mysql:mysql-connector-java'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.springframework.boot:spring-boot-starter'
-	compile 'io.jsonwebtoken:jjwt:0.9.1'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
-	}
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'mysql:mysql-connector-java'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compile 'io.jsonwebtoken:jjwt:0.9.1'
+    compile 'org.springframework.data:spring-data-rest-hal-browser'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
 apply plugin: 'jacoco'
 
 jacoco {
-toolVersion = jacocoVersion
+    toolVersion = jacocoVersion
 }
 
 jacocoTestReport {
- reports {
- html.enabled = true
- xml.enabled = true
- csv.enabled = true
- }
- test.finalizedBy jacocoTestReport
+    reports {
+        html.enabled = true
+        xml.enabled = true
+        csv.enabled = true
+    }
+    test.finalizedBy jacocoTestReport
 }
 
 dependencyManagement {
-  imports {
-    mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Hoxton.RELEASE'
-  }
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Hoxton.RELEASE'
+    }
 }
 
-
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
