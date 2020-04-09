@@ -1,8 +1,8 @@
 package com.customer.service;
 
-import com.customer.model.CreditCard;
-
 import java.util.List;
+
+import com.customer.model.CreditCard;
 
 public interface CreditCardService {
 
