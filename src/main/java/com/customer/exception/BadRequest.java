@@ -2,9 +2,9 @@ package com.customer.exception;
 
 public class BadRequest extends RuntimeException {
 
-	String message;
+    String message;
 
-	public BadRequest(String message) {
-		super(message);
-	}
+    public BadRequest(String message) {
+        super(message);
+    }
 }

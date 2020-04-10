@@ -2,9 +2,9 @@ package com.customer.exception;
 
 public class InvalidRequest extends RuntimeException {
 
-	String message;
+    String message;
 
-	public InvalidRequest(String message) {
-		super(message);
-	}
+    public InvalidRequest(String message) {
+        super(message);
+    }
 }
