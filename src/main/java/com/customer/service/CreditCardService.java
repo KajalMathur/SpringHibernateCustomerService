@@ -9,4 +9,8 @@ public interface CreditCardService {
     public CreditCard createCreditCardInfo(CreditCard creditCardInfo);
 
     List<CreditCard> getAllCreditCardsInfo(int year);
+
+    public void deleteCreditCardInfoById(int id);
+
+    public void deleteAllCreditCardInfo();
 }
