@@ -1,12 +1,12 @@
 package com.customer.service;
 
-import java.util.List;
-
 import com.customer.model.CreditCard;
 
+import java.util.List;
+
 public interface CreditCardService {
-	
-	public CreditCard createCreditCardInfo(CreditCard creditCardInfo);
-	
-	List<CreditCard> getAllCreditCardsInfo(int year);
+
+    public CreditCard createCreditCardInfo(CreditCard creditCardInfo);
+
+    List<CreditCard> getAllCreditCardsInfo(int year);
 }
