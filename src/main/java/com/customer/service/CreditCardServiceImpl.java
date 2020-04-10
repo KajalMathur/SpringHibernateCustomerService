@@ -28,14 +28,14 @@ public class CreditCardServiceImpl implements CreditCardService {
     }
 
     @Override
-    public CreditCard createCreditCardInfo(CreditCard creditCardInfo) {
+    public CreditCard createCreditCard(CreditCard creditCard) {
         // Here we are saving the credit card details in the database
-        log.info(username);
-        return creditcardRepository.save(creditCardInfo);
+        log.info("Creating Credit Card for user = "+username);
+        return creditcardRepository.save(creditCard);
     }
 
     @Override
-    public List<CreditCard> getAllCreditCardsInfo(int year) {
+    public List<CreditCard> getAllCreditCards(int year) {
         List<CreditCard> creditCard = (List<CreditCard>) creditcardRepository.findAll()
                 .stream()
                 .filter(creditcard -> creditcard.getExpiryYear() == year)
@@ -52,14 +52,12 @@ public class CreditCardServiceImpl implements CreditCardService {
     }
 
     @Override
-    public void deleteCreditCardInfoById(int id) {
-        // TODO Auto-generated method stub
+    public void deleteCreditCardById(int id) {
         creditcardRepository.deleteById(id);
     }
 
     @Override
-    public void deleteAllCreditCardInfo() {
-        // TODO Auto-generated method stub
+    public void deleteAllCreditCard() {
         creditcardRepository.deleteAll();
     }
 }

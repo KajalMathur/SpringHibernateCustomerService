@@ -101,43 +101,43 @@ public class CrediCardApplicationTest {
     @Test
     public void verifyCreditCardPostwithSuccess() {
         when(creditCardRepositoryMock.save(creditCardData)).thenReturn(creditCardData);
-        assertEquals(creditCardServiceImpl.createCreditCardInfo(creditCardData), creditCardData);
+        assertEquals(creditCardServiceImpl.createCreditCard(creditCardData), creditCardData);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void verifyCreditCardPostwithNull() {
         when(creditCardRepositoryMock.save(null)).thenThrow(IllegalArgumentException.class);
-        creditCardServiceImpl.createCreditCardInfo(null);
+        creditCardServiceImpl.createCreditCard(null);
     }
 
     @Test
     public void verifyCreditCardPostWithoneNullValue() {
         when(creditCardRepositoryMock.save(creditCardDataWithNull)).thenReturn(creditCardDataWithNull);
-        assertEquals(creditCardServiceImpl.createCreditCardInfo(creditCardDataWithNull), creditCardDataWithNull);
+        assertEquals(creditCardServiceImpl.createCreditCard(creditCardDataWithNull), creditCardDataWithNull);
     }
 
     /* Credit Card get request testcases */
     @Test
     public void verifyCreditCardGetWithSuccess() {
         when(creditCardRepositoryMock.findAll()).thenReturn(creditCardList1);
-        assertEquals(creditCardServiceImpl.getAllCreditCardsInfo(2025), creditCardList1);
+        assertEquals(creditCardServiceImpl.getAllCreditCards(2025), creditCardList1);
     }
 
     @Test
     public void verifyCreditCardwithFutureYear() {
         when(creditCardRepositoryMock.findAll()).thenReturn(creditCardEmptyList);
-        assertEquals(creditCardServiceImpl.getAllCreditCardsInfo(3000), creditCardEmptyList);
+        assertEquals(creditCardServiceImpl.getAllCreditCards(3000), creditCardEmptyList);
     }
 
     @Test
     public void verifyCreditCardDataSortedByDate() {
         when(creditCardRepositoryMock.findAll()).thenReturn(creditCardList2);
-        assertEquals(creditCardServiceImpl.getAllCreditCardsInfo(2021), creditCardSortedList);
+        assertEquals(creditCardServiceImpl.getAllCreditCards(2021), creditCardSortedList);
     }
 
     @Test
     public void verifyCreditCardIfYearisZero() {
         when(creditCardRepositoryMock.findAll()).thenReturn(creditCardList2);
-        assertEquals(creditCardServiceImpl.getAllCreditCardsInfo(0), creditCardEmptyList);
+        assertEquals(creditCardServiceImpl.getAllCreditCards(0), creditCardEmptyList);
     }
 }

@@ -10,13 +10,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @SpringBootApplication
 public class CustomerMain {
 
-
     private static Logger LOGGER = LoggerFactory.getLogger(CustomerMain.class);
 
     public static void main(String[] args) {
-
         SpringApplication.run(CustomerMain.class, args);
-        LOGGER.info("Hello i am in Customer Main class");
-        LOGGER.debug("Application is in debugging mode");
+        LOGGER.info("Customer service has started");
     }
 }

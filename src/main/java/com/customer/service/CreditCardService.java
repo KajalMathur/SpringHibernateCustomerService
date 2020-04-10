@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface CreditCardService {
 
-    public CreditCard createCreditCardInfo(CreditCard creditCardInfo);
+    public CreditCard createCreditCard(CreditCard creditCard);
 
-    List<CreditCard> getAllCreditCardsInfo(int year);
+    List<CreditCard> getAllCreditCards(int year);
 
-    public void deleteCreditCardInfoById(int id);
+    public void deleteCreditCardById(int id);
 
-    public void deleteAllCreditCardInfo();
+    public void deleteAllCreditCard();
 }
